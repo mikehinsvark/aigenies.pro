@@ -4,3 +4,513 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Genie Pro — DBR Full Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#060F1C;--bg2:#0A1628;--bg3:#0E1F35;
+  --card:#0F1E33;--card2:#122240;
+  --teal:#0D7A5F;--teal-l:#12A37E;
+  --gold:#C9990A;--gold-l:#F0B429;
+  --blue:#1A5FA8;--blue-l:#2E80DD;
+  --coral:#B84020;--coral-l:#E05030;
+  --purple:#4A3AAA;--purple-l:#6B5AD4;
+  --amber:#A06010;--amber-l:#D08020;
+  --white:#F0EDE8;--mid:#7A8FA8;--dim:#2E3F55;--dimtext:#4A5F78;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);
+}
+body{background:var(--bg);color:var(--white);font-family:'DM Sans',sans-serif;line-height:1.5;overflow-x:hidden;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(13,122,95,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(13,122,95,.04) 1px,transparent 1px);background-size:52px 52px;pointer-events:none;z-index:0}
+
+/* NAV */
+nav{background:rgba(6,15,28,0.97);border-bottom:1px solid var(--border2);position:sticky;top:0;z-index:200;backdrop-filter:blur(16px)}
+.nav-inner{max-width:1000px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:58px}
+.nav-logo{font-family:'Playfair Display',serif;font-size:19px;color:var(--white)}
+.nav-logo em{color:var(--gold-l);font-style:normal}
+.nav-pill{font-size:9px;background:var(--gold);color:var(--bg);padding:3px 9px;border-radius:20px;font-weight:700;letter-spacing:.1em;margin-left:8px;text-transform:uppercase}
+.nav-right{display:flex;align-items:center;gap:8px}
+.nav-link{font-size:12px;color:var(--mid);padding:6px 10px;border-radius:4px;text-decoration:none;transition:all .15s;display:none}
+.nav-link:hover{color:var(--white)}
+.nav-free{font-size:12px;color:var(--mid);padding:6px 14px;border:1px solid var(--dim);border-radius:20px;text-decoration:none;transition:all .15s}
+.nav-free:hover{color:var(--white);border-color:var(--mid)}
+@media(min-width:700px){.nav-link{display:block}}
+
+/* HERO */
+.hero{background:var(--bg2);border-bottom:1px solid var(--border2);position:relative;overflow:hidden}
+.hero-glow1{position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(13,122,95,.2) 0%,transparent 65%);top:-250px;left:-100px;pointer-events:none}
+.hero-glow2{position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(240,180,41,.12) 0%,transparent 65%);bottom:-150px;right:-50px;pointer-events:none}
+.hero-bar{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--teal-l) 35%,var(--gold-l) 65%,var(--gold))}
+
+.hero-wrap{max-width:1000px;margin:0 auto;padding:52px 16px 70px;position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center}
+.hero-tag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.22em;color:var(--teal-l);text-transform:uppercase;margin-bottom:18px}
+.hero-h1{font-family:'Playfair Display',serif;font-size:clamp(40px,7vw,64px);line-height:.95;color:var(--white);margin-bottom:8px;font-weight:400}
+.hero-h1 em{color:var(--gold-l);font-style:normal}
+.hero-h2{font-family:'Playfair Display',serif;font-size:clamp(18px,3.5vw,26px);color:rgba(240,237,232,.35);font-style:italic;margin-bottom:24px}
+.hero-rule{width:56px;height:1px;background:linear-gradient(90deg,transparent,var(--teal-l),var(--gold-l),transparent);margin:0 auto 20px}
+.hero-sub{font-size:14px;color:var(--mid);line-height:1.7;max-width:480px;margin-bottom:32px}
+.hero-sub strong{color:var(--white)}
+
+.hero-chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:28px}
+.hchip{display:flex;align-items:center;gap:7px;border-radius:24px;padding:7px 14px;border:1px solid;font-size:11px;font-weight:600;letter-spacing:.04em;cursor:default}
+.hchip-t{background:rgba(18,163,126,.15);border-color:rgba(18,163,126,.4);color:#2DCEA0}
+.hchip-g{background:rgba(240,180,41,.12);border-color:rgba(240,180,41,.4);color:#F0B429}
+.hchip-b{background:rgba(46,128,221,.14);border-color:rgba(46,128,221,.4);color:#5BA8F0}
+.hchip-c{background:rgba(224,80,48,.13);border-color:rgba(224,80,48,.4);color:#F07060}
+.hchip-p{background:rgba(107,90,212,.14);border-color:rgba(107,90,212,.4);color:#9B8EEA}
+.hchip-a{background:rgba(208,128,32,.13);border-color:rgba(208,128,32,.4);color:#D4A040}
+.cdot{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.8;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:.8}50%{opacity:.2}}
+
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border2);border-radius:10px;overflow:hidden;background:rgba(255,255,255,.03);width:100%;max-width:480px}
+.hstat{padding:14px 10px;text-align:center;border-right:1px solid var(--border)}
+.hstat:last-child{border-right:none}
+.hstat-n{font-family:'Playfair Display',serif;font-size:26px;color:var(--teal-l);display:block;line-height:1}
+.hstat-n.g{color:var(--gold-l)}
+.hstat-l{font-family:'DM Mono',monospace;font-size:8px;color:var(--dimtext);text-transform:uppercase;letter-spacing:.1em;display:block;margin-top:5px}
+
+.hero-foot{max-width:1000px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);gap:12px;flex-wrap:wrap}
+.hf-l{font-family:'DM Mono',monospace;font-size:8px;color:var(--dimtext);letter-spacing:.12em;text-transform:uppercase}
+.hf-u{font-family:'DM Mono',monospace;font-size:9px;color:rgba(240,180,41,.4);display:none}
+@media(min-width:600px){.hf-u{display:block}}
+.hf-btn{background:var(--gold);color:var(--bg);font-family:'DM Mono',monospace;font-size:10px;font-weight:700;padding:8px 20px;border-radius:20px;border:none;cursor:pointer;letter-spacing:.08em;transition:all .15s;white-space:nowrap;text-decoration:none;display:inline-block}
+.hf-btn:hover{background:var(--gold-l);transform:translateY(-1px)}
+
+/* PAGE */
+.page{max-width:1000px;margin:0 auto;padding:28px 16px 80px;position:relative;z-index:1}
+
+/* LOCKED BANNER */
+.lock-bar{display:flex;align-items:flex-start;gap:12px;background:rgba(201,153,10,.07);border:1px solid rgba(240,180,41,.3);border-radius:12px;padding:14px 16px;margin-bottom:24px}
+.lock-ico{font-size:20px;flex-shrink:0;margin-top:1px}
+.lock-t{font-size:13px;font-weight:600;color:var(--gold-l)}.lock-s{font-size:12px;color:var(--mid);margin-top:2px;line-height:1.4}
+.unlock-btn{background:linear-gradient(135deg,var(--gold),var(--gold-l));color:var(--bg);border:none;padding:9px 18px;border-radius:8px;font-family:'DM Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.06em;cursor:pointer;margin-left:auto;white-space:nowrap;text-decoration:none;display:inline-block;transition:all .15s;flex-shrink:0;align-self:center}
+.unlock-btn:hover{transform:translateY(-1px)}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:24px}
+@media(min-width:600px){.stats-row{grid-template-columns:repeat(4,1fr)}}
+.stat-c{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;opacity:.32;position:relative;overflow:hidden}
+.stat-c::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--dim)}
+.sv{font-family:'Playfair Display',serif;font-size:28px;color:var(--dimtext);line-height:1;margin-bottom:3px}
+.sl{font-size:11px;color:var(--dimtext);letter-spacing:.04em}
+
+/* MAIN GRID */
+.mgrid{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:800px){.mgrid{grid-template-columns:1fr 340px}}
+
+/* CARD */
+.card{background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:20px;margin-bottom:14px}
+.card:last-child{margin-bottom:0}
+.sm{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;margin-bottom:5px}
+.sh{font-family:'Playfair Display',serif;font-size:22px;color:var(--white);font-weight:400;margin-bottom:4px}
+.ss{font-size:13px;color:var(--mid);margin-bottom:16px;line-height:1.6}
+.lw{position:relative}
+.ltag{position:absolute;top:12px;right:12px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.1em;background:rgba(201,153,10,.15);border:1px solid rgba(240,180,41,.35);color:var(--gold-l);padding:2px 8px;border-radius:20px;text-transform:uppercase;font-weight:600}
+
+/* ══ AGENT CARDS — BRIGHT & CRISP ══ */
+.agents-grid{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:540px){.agents-grid{grid-template-columns:1fr 1fr}}
+
+.agcard{border-radius:12px;padding:16px;transition:transform .2s,box-shadow .2s;cursor:default}
+.agcard:hover{transform:translateY(-2px)}
+
+/* TEAL — Recruiting */
+.agcard.t{background:linear-gradient(140deg,rgba(13,122,95,.22) 0%,rgba(13,122,95,.1) 100%);border:1px solid rgba(18,163,126,.45)}
+.agcard.t .agname{color:#2DCEA0}
+.agcard.t .agsdot{background:#2DCEA0}
+.agcard.t .agbtn{background:rgba(18,163,126,.15);border:1px solid rgba(18,163,126,.4);color:#2DCEA0}
+.agcard.t .agtask{border-color:rgba(18,163,126,.12)}
+.agcard.t .agtasks{border-color:rgba(18,163,126,.2)}
+
+/* GOLD — Onboarding */
+.agcard.g{background:linear-gradient(140deg,rgba(240,180,41,.18) 0%,rgba(240,180,41,.08) 100%);border:1px solid rgba(240,180,41,.4)}
+.agcard.g .agname{color:var(--gold-l)}
+.agcard.g .agsdot{background:var(--gold-l)}
+.agcard.g .agbtn{background:rgba(240,180,41,.12);border:1px solid rgba(240,180,41,.35);color:var(--gold-l)}
+.agcard.g .agtask{border-color:rgba(240,180,41,.12)}
+.agcard.g .agtasks{border-color:rgba(240,180,41,.2)}
+
+/* BLUE — B2B Sales */
+.agcard.b{background:linear-gradient(140deg,rgba(46,128,221,.2) 0%,rgba(46,128,221,.08) 100%);border:1px solid rgba(46,128,221,.4)}
+.agcard.b .agname{color:#5BA8F0}
+.agcard.b .agsdot{background:#5BA8F0}
+.agcard.b .agbtn{background:rgba(46,128,221,.12);border:1px solid rgba(46,128,221,.35);color:#5BA8F0}
+.agcard.b .agtask{border-color:rgba(46,128,221,.12)}
+.agcard.b .agtasks{border-color:rgba(46,128,221,.2)}
+
+/* CORAL — Intelligence */
+.agcard.c{background:linear-gradient(140deg,rgba(224,80,48,.2) 0%,rgba(224,80,48,.08) 100%);border:1px solid rgba(224,80,48,.4)}
+.agcard.c .agname{color:#F07060}
+.agcard.c .agsdot{background:#F07060}
+.agcard.c .agbtn{background:rgba(224,80,48,.12);border:1px solid rgba(224,80,48,.35);color:#F07060}
+.agcard.c .agtask{border-color:rgba(224,80,48,.12)}
+.agcard.c .agtasks{border-color:rgba(224,80,48,.2)}
+
+.agstatus{display:flex;align-items:center;gap:5px;font-family:'DM Mono',monospace;font-size:8px;color:var(--mid);letter-spacing:.1em;text-transform:uppercase;margin-bottom:7px}
+.agsdot{width:5px;height:5px;border-radius:50%}
+.agname{font-size:11px;font-weight:700;letter-spacing:.06em;margin-bottom:3px;text-transform:uppercase;font-family:'DM Mono',monospace}
+.agsub{font-size:11px;color:rgba(240,237,232,.6);line-height:1.4}
+.agtasks{margin-top:10px;border-top:1px solid;padding-top:8px}
+.agtask{font-size:11px;color:rgba(240,237,232,.6);padding:2px 0;border-bottom:1px solid;line-height:1.4}
+.agtask:last-child{border-bottom:none!important}
+.agbtn{width:100%;margin-top:10px;padding:7px;border-radius:6px;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:.08em;cursor:not-allowed;text-transform:uppercase;text-align:center;font-weight:700;display:block}
+
+/* ══ COUNCIL CARDS — BRIGHT & CRISP ══ */
+.council-grid{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:540px){.council-grid{grid-template-columns:1fr 1fr}}
+
+.cccard{border-radius:12px;padding:14px;transition:transform .2s;cursor:default}
+.cccard:hover{transform:translateY(-2px)}
+
+.cccard.t{background:linear-gradient(140deg,rgba(13,122,95,.22) 0%,rgba(13,122,95,.1) 100%);border:1px solid rgba(18,163,126,.45)}
+.cccard.t .ccname{color:#2DCEA0}
+.cccard.t .ccav{background:rgba(18,163,126,.2);border:1.5px solid rgba(18,163,126,.5);color:#2DCEA0}
+.cccard.t .ccspec{border-color:rgba(18,163,126,.2)}
+
+.cccard.p{background:linear-gradient(140deg,rgba(107,90,212,.2) 0%,rgba(107,90,212,.08) 100%);border:1px solid rgba(107,90,212,.4)}
+.cccard.p .ccname{color:#9B8EEA}
+.cccard.p .ccav{background:rgba(107,90,212,.2);border:1.5px solid rgba(107,90,212,.5);color:#9B8EEA}
+.cccard.p .ccspec{border-color:rgba(107,90,212,.15)}
+
+.cccard.c{background:linear-gradient(140deg,rgba(224,80,48,.2) 0%,rgba(224,80,48,.08) 100%);border:1px solid rgba(224,80,48,.4)}
+.cccard.c .ccname{color:#F07060}
+.cccard.c .ccav{background:rgba(224,80,48,.2);border:1.5px solid rgba(224,80,48,.5);color:#F07060}
+.cccard.c .ccspec{border-color:rgba(224,80,48,.15)}
+
+.cccard.a{background:linear-gradient(140deg,rgba(208,128,32,.18) 0%,rgba(208,128,32,.08) 100%);border:1px solid rgba(208,128,32,.4)}
+.cccard.a .ccname{color:#D4A040}
+.cccard.a .ccav{background:rgba(208,128,32,.2);border:1.5px solid rgba(208,128,32,.5);color:#D4A040}
+.cccard.a .ccspec{border-color:rgba(208,128,32,.15)}
+
+.cctop{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.ccav{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.ccname{font-size:13px;font-weight:600}
+.ccrole{font-size:10px;color:rgba(240,237,232,.5);margin-top:1px}
+.ccspec{font-size:11px;color:rgba(240,237,232,.6);padding-top:8px;border-top:1px solid;line-height:1.4}
+
+/* DIGITAL MIND */
+.dm-box{background:rgba(255,255,255,.03);border:2px dashed var(--dim);border-radius:12px;padding:24px;text-align:center;opacity:.5}
+.dm-ring{width:56px;height:56px;border-radius:50%;border:2px dashed var(--dim);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:24px;color:var(--dimtext)}
+.dm-title{font-family:'Playfair Display',serif;font-size:16px;color:var(--mid);margin-bottom:4px}
+.dm-sub{font-size:12px;color:var(--dimtext);line-height:1.5}
+.dm-url{font-family:'DM Mono',monospace;font-size:10px;color:var(--dimtext);margin-top:10px;padding:6px 12px;background:rgba(255,255,255,.04);border-radius:4px;display:inline-block;border:1px solid var(--dim)}
+.dm-mini{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px}
+.dmc{background:rgba(255,255,255,.03);border:1px solid var(--dim);border-radius:6px;padding:8px;text-align:center}
+.dmcl{font-size:9px;color:var(--dimtext);display:block;margin-bottom:2px;font-family:'DM Mono',monospace;letter-spacing:.08em;text-transform:uppercase}
+.dmcv{font-size:11px;color:var(--dimtext)}
+
+/* UPGRADE CARD */
+.upcard{background:var(--bg3);border:1px solid rgba(240,180,41,.3);border-radius:14px;padding:24px;position:relative;overflow:hidden}
+.upcard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--teal-l),var(--gold-l),var(--gold))}
+.up-ey{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--teal-l);text-transform:uppercase;margin-bottom:7px}
+.up-title{font-family:'Playfair Display',serif;font-size:28px;color:var(--gold-l);font-weight:400;margin-bottom:6px}
+.up-sub{font-size:13px;color:var(--mid);margin-bottom:18px;line-height:1.6}
+.up-feats{display:flex;flex-direction:column;gap:11px;margin-bottom:20px}
+.up-feat{display:flex;align-items:flex-start;gap:9px}
+.up-chk{color:var(--teal-l);font-size:14px;flex-shrink:0;margin-top:1px}
+.up-ft{font-size:13px;color:var(--white);font-weight:500;line-height:1.3}
+.up-fd{font-size:11px;color:var(--mid);margin-top:2px}
+.up-btn{display:block;width:100%;padding:14px;background:linear-gradient(135deg,var(--gold),var(--gold-l));color:var(--bg);border:none;border-radius:8px;font-family:'Playfair Display',serif;font-size:20px;cursor:pointer;text-align:center;text-decoration:none;transition:all .15s;margin-bottom:10px;font-weight:700;letter-spacing:.02em}
+.up-btn:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(201,153,10,.4)}
+.up-note{font-size:11px;color:var(--dimtext);text-align:center;line-height:1.5}
+
+/* COMPARE */
+.cmpcard{background:var(--card);border:1px solid var(--border2);border-radius:12px;padding:18px;margin-top:14px}
+.crow{display:grid;grid-template-columns:1fr 50px 50px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;align-items:center}
+.crow:last-child{border-bottom:none}
+.cl{color:var(--mid)}.cf{text-align:center;color:var(--dimtext)}.cp{text-align:center;color:var(--teal-l);font-weight:600}
+.ch .cl,.ch .cf,.ch .cp{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--dimtext);padding-bottom:3px}
+
+/* QUOTE */
+.qcard{background:var(--card);border-left:3px solid var(--gold);border-radius:0 12px 12px 0;padding:18px 20px;margin-top:14px}
+.qt{font-family:'Playfair Display',serif;font-size:14px;color:var(--white);line-height:1.75;font-style:italic;margin-bottom:10px}
+.qt em{color:var(--gold-l);font-style:normal}
+.qa{font-family:'DM Mono',monospace;font-size:8px;color:var(--mid);letter-spacing:.12em;text-transform:uppercase}
+
+.unlock-link{font-size:13px;color:var(--gold-l);text-decoration:none;font-weight:500;display:block;text-align:center;margin-top:14px}
+.unlock-link:hover{text-decoration:underline}
+
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .2s}
+.modal-bg.open{opacity:1;pointer-events:all}
+.modal{background:var(--card2);border:1px solid rgba(240,180,41,.3);border-radius:14px;padding:28px;max-width:460px;width:100%;position:relative}
+.mbar{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--gold-l));border-radius:14px 14px 0 0}
+.mclose{position:absolute;top:14px;right:16px;background:none;border:none;color:var(--mid);font-size:18px;cursor:pointer}
+.mey{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--teal-l);text-transform:uppercase;margin-bottom:7px}
+.mt{font-family:'Playfair Display',serif;font-size:26px;color:var(--white);font-weight:400;margin-bottom:5px}
+.mb{font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:18px}
+.mi{width:100%;padding:11px 14px;background:rgba(255,255,255,.05);border:1px solid var(--border2);border-radius:7px;color:var(--white);font-size:13px;margin-bottom:10px;font-family:'DM Sans',sans-serif;transition:border-color .15s}
+.mi:focus{outline:none;border-color:var(--teal-l)}
+.mi::placeholder{color:var(--dimtext)}
+.mbtn{width:100%;padding:13px;background:linear-gradient(135deg,var(--gold),var(--gold-l));color:var(--bg);border:none;border-radius:8px;font-family:'Playfair Display',serif;font-size:19px;cursor:pointer;transition:all .15s;font-weight:700}
+.mbtn:hover{transform:translateY(-1px)}
+
+footer{background:var(--bg2);border-top:1px solid var(--border2);padding:20px 16px;text-align:center;font-size:11px;color:var(--dimtext);position:relative;z-index:1}
+footer a{color:var(--teal-l);text-decoration:none}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div style="display:flex;align-items:center">
+      <div class="nav-logo">DBR <em>AI Genie</em></div>
+      <div class="nav-pill">Pro</div>
+    </div>
+    <div class="nav-right">
+      <a href="https://dreamsaiagents.pro/" class="nav-link" target="_blank">AI Genie Demo</a>
+      <a href="https://erctrainers.com/aiclone/" class="nav-link" target="_blank">Free AI Clone</a>
+      <a href="https://dreamsfaststart.com" class="nav-link" target="_blank">DBR Training</a>
+      <a href="https://renewalsforlifestyle.com" class="nav-link" target="_blank">RenewalsForLife</a>
+      <a href="https://dreams3pkg-5hqcaqth.manus.space/?refid=AA0233" target="_blank" class="nav-free" style="background:var(--gold);color:var(--bg);border-color:var(--gold);font-weight:700;padding:7px 16px">View Packages →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-glow1"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-bar"></div>
+  <div class="hero-wrap">
+    <div class="hero-tag">// DBR AI Genie Platform</div>
+    <div class="hero-h1">Your Entire<br>AI <em>Team.</em></div>
+    <div class="hero-h2">Working while you sleep.</div>
+    <div class="hero-rule"></div>
+    <div class="hero-sub">4 AI agents + the DBR council + <strong>your personal Digital Mind</strong> — all in one platform. Built for builders who refuse to trade time for income.</div>
+    <div class="hero-chips">
+      <div class="hchip hchip-t"><div class="cdot"></div>Recruiting Agent</div>
+      <div class="hchip hchip-g"><div class="cdot"></div>Onboarding Agent</div>
+      <div class="hchip hchip-b"><div class="cdot"></div>B2B Sales Agent</div>
+      <div class="hchip hchip-c"><div class="cdot"></div>Intelligence Agent</div>
+      <div class="hchip hchip-p"><div class="cdot"></div>DBR AI Council</div>
+      <div class="hchip hchip-a"><div class="cdot"></div>Your Digital Mind</div>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><span class="hstat-n">4</span><span class="hstat-l">AI Agents</span></div>
+      <div class="hstat"><span class="hstat-n">4</span><span class="hstat-l">Experts</span></div>
+      <div class="hstat"><span class="hstat-n g">24/7</span><span class="hstat-l">Always On</span></div>
+      <div class="hstat"><span class="hstat-n">1</span><span class="hstat-l">Your Clone</span></div>
+    </div>
+  </div>
+  <div class="hero-foot">
+    <div class="hf-l">aigenies.pro · powered by Claude + Delphi.ai</div>
+    <div class="hf-u">delphi.ai/your-name — unlocks with Pro</div>
+    <a href="https://dreams3pkg-5hqcaqth.manus.space/?refid=AA0233" target="_blank" class="hf-btn">Activate Pro →</a>
+  </div>
+</div>
+
+<!-- PAGE -->
+<div class="page">
+
+  <!-- LOCKED BANNER -->
+  <div class="lock-bar">
+    <div class="lock-ico">🔒</div>
+    <div>
+      <div class="lock-t">Platform locked — upgrade to activate everything below</div>
+      <div class="lock-s">Your free AI Clone stays active. AI Genie Pro adds the full team on top.</div>
+    </div>
+    <a href="https://dreams3pkg-5hqcaqth.manus.space/?refid=AA0233" target="_blank" class="unlock-btn">Unlock Now →</a>
+  </div>
+
+  <!-- STATS LOCKED -->
+  <div class="stats-row">
+    <div class="stat-c"><div class="sv">—</div><div class="sl">Active recruits</div></div>
+    <div class="stat-c"><div class="sv">—</div><div class="sl">B2B prospects</div></div>
+    <div class="stat-c"><div class="sv">—</div><div class="sl">Monthly residual</div></div>
+    <div class="stat-c"><div class="sv">—</div><div class="sl">AI tasks done</div></div>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="mgrid">
+    <div>
+
+      <!-- AGENTS CARD -->
+      <div class="card lw">
+        <div class="ltag">Locked</div>
+        <div class="sm">Your AI team — 4 agents</div>
+        <div class="sh">Always-on AI working your pipeline</div>
+        <div class="ss">These agents run recruiting, onboarding, B2B sales, and strategic intelligence — 24/7. Activate to turn them all on.</div>
+        <div class="agents-grid">
+
+          <div class="agcard t">
+            <div class="agstatus"><div class="agsdot"></div>Locked</div>
+            <div class="agname">Recruiting Agent</div>
+            <div class="agsub">Pipeline builder · Outreach writer · Objection handler</div>
+            <div class="agtasks">
+              <div class="agtask">Draft LinkedIn outreach for prospects</div>
+              <div class="agtask">Prepare follow-up sequences</div>
+              <div class="agtask">Generate recruiting scripts live</div>
+            </div>
+            <a href="https://dreams3pkg-5hqcaqth.manus.space/?refid=AA0233" target="_blank" class="agbtn">Locked — upgrade to activate</a>
+          </div>
+
+          <div class="agcard g">
+            <div class="agstatus"><div class="agsdot"></div>Locked</div>
+            <div class="agname">Onboarding Agent</div>
+            <div class="agsub">New agent guide · DBR training · First 30 days</div>
+            <div class="agtasks">
+              <div class="agtask">Answer Section 125 questions automatically</div>
+              <div class="agtask">Send weekly checklists to new agents</div>
+              <div class="agtask">Track onboarding progress by agent</div>
+            </div>
+            <a href="https://dreams3pkg-5hqcaqth.manus.space/?refid=AA0233" target="_blank" class="agbtn">Locked — upgrade to activate</a>
+          </div>
+
+          <div class="agcard b">
+            <div class="agstatus"><div class="agsdot"></div>Locked</div>
+            <div class="agname">B2B Sales Agent</div>
+            <div class="agsub">Employer presentations · Section 125 · FICA · R&D Credits</div>
+            <div class="agtasks">
+              <div class="agtask">Prep presentations for employer meetings</div>
+              <div class="agtask">Calculate FICA savings by employee count</div>
+              <div class="agtask">Draft proposals and follow-ups</div>
+            </div>
+            <a href="https://dreams3pkg-5hqcaqth.manus.space/?refid=AA0233" target="_blank" class="agbtn">Locked — upgrade to activate</a>
+          </div>
+
+          <div class="agcard c">
+            <div class="agstatus"><div class="agsdot"></div>Locked</div>
+            <div class="agname">Intelligence Agent</div>
+            <div class="agsub">Strategy · Daily priorities · Business snapshot</div>
+            <div class="agtasks">
+              <div class="agtask">Daily top-3 priority briefing</div>
+              <div class="agtask">Weekly performance summary</div>
+              <div class="agtask">90-day residual growth forecast</div>
+            </div>
+            <a href="https://dreams3pkg-5hqcaqth.manus.space/?refid=AA0233" target="_blank" class="agbtn">Locked — upgrade to activate</a>
+          </div>
+
+        </div>
+        <a href="https://dreams3pkg-5hqcaqth.manus.space/?refid=AA0233" target="_blank" class="unlock-link">Unlock all 4 agents → get access now</a>
+      </div>
+
+      <!-- COUNCIL CARD -->
+      <div class="card lw">
+        <div class="ltag">Locked</div>
+        <div class="sm">DBR AI Council — 4 expert minds</div>
+        <div class="sh">Ask any expert anything — 24/7</div>
+        <div class="ss">Every council member has a permanent Delphi.ai Digital Mind — trained on their voice, knowledge, and expertise. Available anytime, for any agent on your team.</div>
+        <div class="council-grid">
+
+          <div class="cccard t">
+            <div class="cctop">
+              <div class="ccav">MH</div>
+              <div><div class="ccname">Mike Hinsvark</div><div class="ccrole">CEO · Dreams Business Resources</div></div>
+            </div>
+            <div class="ccspec">Vision · DREAMS framework · Trumark Health · Quantum 125 · residual income</div>
+          </div>
+
+          <div class="cccard p">
+            <div class="cctop">
+              <div class="ccav">KD</div>
+              <div><div class="ccname">Kent Dougherty</div><div class="ccrole">Co-CEO · Tax Strategy</div></div>
+            </div>
+            <div class="ccspec">R&D tax credits · Tax Prep Advocates · CFO conversations · compliance</div>
+          </div>
+
+          <div class="cccard c">
+            <div class="cctop">
+              <div class="ccav">JH</div>
+              <div><div class="ccname">James Hardy</div><div class="ccrole">District Managers Program</div></div>
+            </div>
+            <div class="ccspec">Dreams Score · digital marketing · district leadership · recruiting events</div>
+          </div>
+
+          <div class="cccard a">
+            <div class="cctop">
+              <div class="ccav">AG</div>
+              <div><div class="ccname">Anthony Gambale</div><div class="ccrole">Automation &amp; Tools</div></div>
+            </div>
+            <div class="ccspec">Dreams Cloud · automation workflows · insurance products · agent tech stack</div>
+          </div>
+
+        </div>
+        <a href="https://dreams3pkg-5hqcaqth.manus.space/?refid=AA0233" target="_blank" class="unlock-link">Unlock council access → get access now</a>
+      </div>
+
+      <!-- DIGITAL MIND CARD -->
+      <div class="card lw">
+        <div class="ltag">Locked</div>
+        <div class="sm">Your Digital Mind — powered by Delphi.ai</div>
+        <div class="sh">Your clone that never sleeps</div>
+        <div class="ss">A permanent AI version of you — trained on your voice, your products, your story. Prospects and recruits talk to it at your personal URL without you there.</div>
+        <div class="dm-box">
+          <div class="dm-ring">+</div>
+          <div class="dm-title">Your Digital Mind — not yet built</div>
+          <div class="dm-sub">Unlock AI Genie Pro to start building. Your Delphi Digital Mind is set up for you during onboarding.</div>
+          <div class="dm-url">delphi.ai/your-name — coming after upgrade</div>
+          <div class="dm-mini">
+            <div class="dmc"><span class="dmcl">Your URL</span><span class="dmcv">Locked</span></div>
+            <div class="dmc"><span class="dmcl">Availability</span><span class="dmcv">Locked</span></div>
+            <div class="dmc"><span class="dmcl">Conversations</span><span class="dmcv">Locked</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: Upgrade + Compare + Quote -->
+    <div>
+
+      <div class="upcard" id="upgrade">
+        <div class="up-ey">// Activate now</div>
+        <div class="up-title">AI Genie Pro</div>
+        <div class="up-sub">Everything activates the moment you upgrade. Your free clone keeps working — this adds the full team on top of it.</div>
+        <div class="up-feats">
+          <div class="up-feat"><div class="up-chk">✓</div><div><div class="up-ft">4 AI agents — always on</div><div class="up-fd">Recruiting · Onboarding · B2B Sales · Intelligence</div></div></div>
+          <div class="up-feat"><div class="up-chk">✓</div><div><div class="up-ft">DBR AI Council — all 4 experts</div><div class="up-fd">Mike · Kent · James · Anthony — 24/7 via Delphi.ai</div></div></div>
+          <div class="up-feat"><div class="up-chk">✓</div><div><div class="up-ft">Your personal Digital Mind</div><div class="up-fd">Your clone at a shareable URL · works while you sleep</div></div></div>
+          <div class="up-feat"><div class="up-chk">✓</div><div><div class="up-ft">Persistent memory — no more pasting</div><div class="up-fd">DBR knowledge pre-loaded permanently</div></div></div>
+          <div class="up-feat"><div class="up-chk">✓</div><div><div class="up-ft">Full dashboard + analytics</div><div class="up-fd">Pipeline · residual tracker · 90-day forecast</div></div></div>
+        </div>
+        <a href="https://dreams3pkg-5hqcaqth.manus.space/?refid=AA0233" target="_blank" class="up-btn">Activate AI Genie Pro →</a>
+        <div class="up-note">Your free AI Clone stays active after upgrading.<br>Setup takes under 30 minutes.</div>
+      </div>
+
+      <div class="cmpcard">
+        <div class="sm" style="margin-bottom:10px">Free vs Pro</div>
+        <div class="crow ch"><div class="cl">Capability</div><div class="cf">Free</div><div class="cp">Pro</div></div>
+        <div class="crow"><div class="cl">AI Clone (session)</div><div class="cf" style="color:var(--teal-l)">✓</div><div class="cp">✓</div></div>
+        <div class="crow"><div class="cl">DBR Master Block</div><div class="cf" style="color:var(--teal-l)">✓</div><div class="cp">✓</div></div>
+        <div class="crow"><div class="cl">Persistent memory</div><div class="cf">✗</div><div class="cp">✓</div></div>
+        <div class="crow"><div class="cl">4 AI agents (24/7)</div><div class="cf">✗</div><div class="cp">✓</div></div>
+        <div class="crow"><div class="cl">DBR Council access</div><div class="cf">✗</div><div class="cp">✓</div></div>
+        <div class="crow"><div class="cl">Your Digital Mind</div><div class="cf">✗</div><div class="cp">✓</div></div>
+        <div class="crow"><div class="cl">Works while you sleep</div><div class="cf">✗</div><div class="cp">✓</div></div>
+        <div class="crow"><div class="cl">Dashboard + analytics</div><div class="cf">✗</div><div class="cp">✓</div></div>
+      </div>
+
+      <div class="qcard">
+        <div class="qt">"When you stop working, does your income stop? In our model it doesn't. And now with AI Genie Pro — <em>your team doesn't stop working either.</em>"</div>
+        <div class="qa">— Mike Hinsvark · CEO · Dreams Business Resources</div>
+      </div>
+
+      <!-- FREE CLONE LINK -->
+      <div style="margin-top:14px;background:var(--card);border:1px solid rgba(18,163,126,.2);border-radius:12px;padding:16px;text-align:center">
+        <div style="font-size:12px;color:var(--mid);margin-bottom:8px">Not ready to upgrade yet?</div>
+        <a href="https://erctrainers.com/aiclone/" target="_blank" style="font-size:13px;color:var(--teal-l);font-weight:500;text-decoration:none">Start with the Free AI Clone setup →</a>
+        <div style="font-size:11px;color:var(--dimtext);margin-top:4px">15 minutes · free forever · no credit card</div>
+      </div>
+
+      <!-- DEMO LINK -->
+      <div style="margin-top:10px;background:var(--card);border:1px solid rgba(107,90,212,.2);border-radius:12px;padding:16px;text-align:center">
+        <div style="font-size:12px;color:var(--mid);margin-bottom:8px">Want to see it in action first?</div>
+        <a href="https://dreamsaiagents.pro/" target="_blank" style="font-size:13px;color:#9B8EEA;font-weight:500;text-decoration:none">View the AI Genie Live Demo →</a>
+        <div style="font-size:11px;color:var(--dimtext);margin-top:4px">See exactly what activates when you upgrade</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer>
+  DBR · Dreams Business Resources · <a href="https://renewalsforlifestyle.com" target="_blank">RenewalsForLife.com</a> · <a href="https://familylegacy.pro" target="_blank">Family Legacy</a> · <a href="https://dreamsfaststart.com" target="_blank">DBR Training</a>
+  <br><br>Build Once. Earn Forever. · <a href="https://erctrainers.com/aiclone/" target="_blank">Free AI Clone</a> · <a href="https://dreamsaiagents.pro/" target="_blank">AI Genie Demo</a>
+</footer>
+
+<script>
+function scrollUp(e){e.preventDefault();document.getElementById('upgrade').scrollIntoView({behavior:'smooth',block:'start'})}
+</script>
+</body>
+</html>
