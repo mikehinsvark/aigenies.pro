@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DBR AI Clone — Free for Every Agent</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0D1B2A;
+    --teal: #0D7A5F;
+    --teal-light: #12A37E;
+    --gold: #C9990A;
+    --gold-light: #F0B429;
+    --white: #F5F3EE;
+    --mid: #8A9BB0;
+    --card: #152336;
+    --border: #1E3249;
+  }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+  }
+
+  .page {
+    width: 100%;
+    max-width: 760px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    padding: 56px 48px 48px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    background: var(--card);
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--teal), var(--gold));
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--teal-light);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hero-eyebrow::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .hero-badge {
+    position: absolute;
+    top: 48px;
+    right: 48px;
+    background: var(--gold);
+    color: var(--navy);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.05em;
+    padding: 8px 18px;
+    border-radius: 2px;
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 9vw, 84px);
+    line-height: 0.92;
+    letter-spacing: 0.01em;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .hero h1 span {
+    color: var(--teal-light);
+    display: block;
+  }
+
+  .hero-sub {
+    font-size: 17px;
+    font-weight: 300;
+    color: var(--mid);
+    margin-top: 20px;
+    max-width: 500px;
+    line-height: 1.6;
+  }
+
+  .hero-sub strong {
+    color: var(--white);
+    font-weight: 500;
+  }
+
+  .hero-url {
+    margin-top: 28px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(13, 122, 95, 0.12);
+    border: 1px solid var(--teal);
+    border-radius: 3px;
+    padding: 10px 18px;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--teal-light);
+    letter-spacing: 0.05em;
+  }
+
+  .dot { width: 6px; height: 6px; background: var(--teal-light); border-radius: 50%; animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  /* ── WHAT IT DOES ── */
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .uses-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .use-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .use-card::after {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--teal);
+  }
+
+  .use-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: var(--border);
+    line-height: 1;
+    margin-bottom: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  .use-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .use-body {
+    font-size: 13px;
+    color: var(--mid);
+    line-height: 1.5;
+  }
+
+  .use-example {
+    margin-top: 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--teal-light);
+    background: rgba(13,122,95,0.08);
+    border-left: 2px solid var(--teal);
+    padding: 6px 10px;
+    border-radius: 0 2px 2px 0;
+    line-height: 1.4;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .steps-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .step-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .step-num {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    color: var(--gold);
+    margin: 0 auto 12px;
+  }
+
+  .step-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .step-body {
+    font-size: 12px;
+    color: var(--mid);
+    line-height: 1.5;
+  }
+
+  .step-time {
+    margin-top: 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── PITCH QUOTE ── */
+  .pitch-block {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 32px 40px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .pitch-block::before {
+    content: '\201C';
+    position: absolute;
+    top: 12px; left: 28px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    color: var(--teal);
+    opacity: 0.3;
+    line-height: 1;
+  }
+
+  .pitch-text {
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 1.65;
+    color: var(--white);
+    position: relative;
+  }
+
+  .pitch-text strong {
+    color: var(--gold-light);
+    font-weight: 500;
+  }
+
+  .pitch-attr {
+    margin-top: 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--mid);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── KNOWLEDGE BOX ── */
+  .knowledge-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px 28px;
+    margin-bottom: 16px;
+  }
+
+  .knowledge-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .k-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--mid);
+    line-height: 1.4;
+  }
+
+  .k-dot {
+    width: 5px; height: 5px;
+    background: var(--teal-light);
+    border-radius: 50%;
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+
+  /* ── FOOTER ── */
+  .footer-strip {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .footer-brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.08em;
+    color: var(--white);
+  }
+
+  .footer-brand span { color: var(--teal-light); }
+
+  .footer-tagline {
+    font-size: 12px;
+    color: var(--mid);
+    margin-top: 2px;
+  }
+
+  .footer-cta {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--teal-light);
+    border: 1px solid var(--teal);
+    padding: 8px 16px;
+    border-radius: 3px;
+    text-align: center;
+  }
+
+  .footer-cta strong {
+    display: block;
+    font-size: 13px;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">Dreams Business Resources · AI Agent System</div>
+    <div class="hero-badge">FREE</div>
+    <h1>Your AI<span>Sales Clone.</span></h1>
+    <p class="hero-sub">
+      The <strong>world's most powerful AI</strong> — configured to know your products, your prospects, and your voice. Set up in 15 minutes. Available 24/7. <strong>Yours free.</strong>
+    </p>
+    <div class="hero-url">
+      <div class="dot"></div>
+      erctrainers.com/aiclone
+    </div>
+  </div>
+
+  <!-- WHAT IT DOES -->
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:4px;padding:28px;margin-bottom:16px;">
+    <div class="section-label">What your AI Clone does for you every day</div>
+    <div class="uses-grid">
+
+      <div class="use-card">
+        <div class="use-number">01</div>
+        <div class="use-title">Writes your emails in 30 seconds</div>
+        <div class="use-body">No-show? Cold prospect? Follow-up? Tell your clone the situation and get a perfect, ready-to-send email instantly.</div>
+        <div class="use-example">"Write a follow-up to a CFO who no-showed our benefits call yesterday."</div>
+      </div>
+
+      <div class="use-card">
+        <div class="use-number">02</div>
+        <div class="use-title">Handles any objection instantly</div>
+        <div class="use-body">Hear something you're not sure how to answer? Get 3 calibrated responses — consultative, direct, or story-based — in seconds.</div>
+        <div class="use-example">"My prospect said they already have a benefits broker. What do I say?"</div>
+      </div>
+
+      <div class="use-card">
+        <div class="use-number">03</div>
+        <div class="use-title">Practices with you before meetings</div>
+        <div class="use-body">Tell your clone to roleplay as a skeptical prospect. Run the whole conversation before you walk in the door. Zero pressure, infinite reps.</div>
+        <div class="use-example">"Be a skeptical CFO with 30 employees. Push back on the Quantum 125 pitch."</div>
+      </div>
+
+      <div class="use-card">
+        <div class="use-number">04</div>
+        <div class="use-title">Recruits while you think</div>
+        <div class="use-body">Need a LinkedIn message for a P&C agent? A recruiting script for tonight's Zoom? Your clone drafts it in your voice, ready to go.</div>
+        <div class="use-example">"Write a LinkedIn DM to an insurance agent about the DBR residual income model."</div>
+      </div>
+
+      <div class="use-card">
+        <div class="use-number">05</div>
+        <div class="use-title">Explains complex stuff simply</div>
+        <div class="use-body">FICA tip credits. R&D tax savings. Section 125. Your clone translates any technical concept into plain language your prospect actually gets.</div>
+        <div class="use-example">"Explain FICA tip credits to a restaurant owner without sounding like an accountant."</div>
+      </div>
+
+      <div class="use-card" style="border-left-color:var(--gold);">
+        <div class="use-number" style="color:rgba(201,153,10,0.25);">06</div>
+        <div class="use-title">Knows DBR as well as you do</div>
+        <div class="use-body">The DBR Master Knowledge Block gives your clone deep company knowledge from day one — products, scripts, objections, and philosophy. Pre-loaded and ready.</div>
+        <div class="use-example" style="border-color:var(--gold);color:var(--gold-light);background:rgba(201,153,10,0.08);">"What makes Trumark Health different from a standard group plan?"</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:4px;padding:28px;margin-bottom:16px;">
+    <div class="section-label">How to set it up — 15 minutes, 3 steps</div>
+    <div class="steps-row">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <div class="step-title">Create your Claude account</div>
+        <div class="step-body">Go to claude.ai. Sign up free. The free tier works. Claude Pro ($20/mo) unlocks more power.</div>
+        <div class="step-time">⏱ 3 MINUTES</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <div class="step-title">Build your Context Block</div>
+        <div class="step-body">Use our auto-generator at erctrainers.com/aiclone. Fill in 5 fields. Copy your personalized block.</div>
+        <div class="step-time">⏱ 5 MINUTES</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <div class="step-title">Paste and start working</div>
+        <div class="step-body">Open a new Claude session. Paste the DBR Master Block, then your personal block. Your clone is live.</div>
+        <div class="step-time">⏱ 2 MINUTES</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PITCH QUOTE -->
+  <div class="pitch-block">
+    <p class="pitch-text">
+      "Most companies hand you a product binder and a prayer. We give every agent <strong>the world's most powerful AI</strong> — configured for DBR, configured for you — available the moment you need it, <strong>every single day, for free.</strong> When you stop working, does your income stop? In our model, it doesn't. And now your AI Clone <strong>never stops working either.</strong>"
+    </p>
+    <div class="pitch-attr">— USE THIS WORD FOR WORD ON YOUR NEXT RECRUITING CALL</div>
+  </div>
+
+  <!-- WHAT THE CLONE KNOWS -->
+  <div class="knowledge-card">
+    <div class="section-label">What the DBR Master Knowledge Block teaches your clone</div>
+    <div style="font-size:13px;color:var(--mid);margin-bottom:4px;">Built once by DBR leadership. Loaded into every agent's clone from day one.</div>
+    <div class="knowledge-grid">
+      <div class="k-item"><div class="k-dot"></div>The DREAMS framework — all six pillars</div>
+      <div class="k-item"><div class="k-dot"></div>Quantum 125 Plan — full product knowledge</div>
+      <div class="k-item"><div class="k-dot"></div>Trumark Health Division overview</div>
+      <div class="k-item"><div class="k-dot"></div>Section 125 employer savings explained</div>
+      <div class="k-item"><div class="k-dot"></div>FICA tip credit — who qualifies and how much</div>
+      <div class="k-item"><div class="k-dot"></div>R&D tax credits — non-tech business guide</div>
+      <div class="k-item"><div class="k-dot"></div>Top 50 objections with calibrated responses</div>
+      <div class="k-item"><div class="k-dot"></div>Recruiting scripts and language</div>
+      <div class="k-item"><div class="k-dot"></div>Prospect profiles: CFO, HR, restaurant owner</div>
+      <div class="k-item"><div class="k-dot"></div>DBR philosophy and positioning vs competitors</div>
+      <div class="k-item"><div class="k-dot"></div>Compliance guardrails in plain English</div>
+      <div class="k-item"><div class="k-dot"></div>Build Once. Earn Forever. — the full story</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer-strip">
+    <div>
+      <div class="footer-brand">Dreams <span>Business Resources</span></div>
+      <div class="footer-tagline">Build Once. Earn Forever. · RenewalsForLife.com</div>
+    </div>
+    <div class="footer-cta">
+      <strong>Start your AI Clone now</strong>
+      erctrainers.com/aiclone
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
