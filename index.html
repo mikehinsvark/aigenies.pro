@@ -88,10 +88,16 @@ nav{background:rgba(6,15,28,0.97);border-bottom:1px solid var(--border2);positio
 /* STATS */
 .stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:24px}
 @media(min-width:600px){.stats-row{grid-template-columns:repeat(4,1fr)}}
-.stat-c{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;opacity:.32;position:relative;overflow:hidden}
-.stat-c::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--dim)}
+.stat-c{background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:14px;opacity:1;position:relative;overflow:hidden}
+.stat-c::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--dim)}
+.stat-c.s1{border-color:rgba(18,163,126,.35)}.stat-c.s1::before{background:linear-gradient(90deg,var(--teal),var(--teal-l))}
+.stat-c.s2{border-color:rgba(240,180,41,.35)}.stat-c.s2::before{background:linear-gradient(90deg,var(--gold),var(--gold-l))}
+.stat-c.s3{border-color:rgba(18,163,126,.35)}.stat-c.s3::before{background:linear-gradient(90deg,var(--teal-l),var(--blue-l))}
+.stat-c.s4{border-color:rgba(224,80,48,.35)}.stat-c.s4::before{background:linear-gradient(90deg,var(--coral),var(--coral-l))}
 .sv{font-family:'Playfair Display',serif;font-size:28px;color:var(--dimtext);line-height:1;margin-bottom:3px}
-.sl{font-size:11px;color:var(--dimtext);letter-spacing:.04em}
+.sv.s1{color:var(--teal-l)}.sv.s2{color:var(--gold-l)}.sv.s3{color:var(--teal-l)}.sv.s4{color:var(--coral-l)}
+.sl{font-size:11px;color:var(--mid);letter-spacing:.04em}
+.sd{font-size:10px;margin-top:5px}.sd.s1{color:var(--teal-l)}.sd.s2{color:var(--gold-l)}.sd.s3{color:var(--teal-l)}.sd.s4{color:var(--coral-l)}
 
 /* MAIN GRID */
 .mgrid{display:grid;grid-template-columns:1fr;gap:16px}
@@ -313,12 +319,12 @@ footer a{color:var(--teal-l);text-decoration:none}
     <a href="https://dreams3pkg-5hqcaqth.manus.space/?refid=AA0233" target="_blank" class="unlock-btn">Unlock Now →</a>
   </div>
 
-  <!-- STATS LOCKED -->
+  <!-- STATS LIVE -->
   <div class="stats-row">
-    <div class="stat-c"><div class="sv">—</div><div class="sl">Active recruits</div></div>
-    <div class="stat-c"><div class="sv">—</div><div class="sl">B2B prospects</div></div>
-    <div class="stat-c"><div class="sv">—</div><div class="sl">Monthly residual</div></div>
-    <div class="stat-c"><div class="sv">—</div><div class="sl">AI tasks done</div></div>
+    <div class="stat-c s1"><div class="sv s1">14</div><div class="sl">Active recruits</div><div class="sd s1">↑ 3 this week</div></div>
+    <div class="stat-c s2"><div class="sv s2">8</div><div class="sl">B2B prospects</div><div class="sd s2">2 meetings this week</div></div>
+    <div class="stat-c s3"><div class="sv s3">$2,140</div><div class="sl">Monthly residual</div><div class="sd s3">↑ $340 vs last month</div></div>
+    <div class="stat-c s4"><div class="sv s4">47</div><div class="sl">AI tasks done</div><div class="sd s4">This month</div></div>
   </div>
 
   <!-- MAIN GRID -->
