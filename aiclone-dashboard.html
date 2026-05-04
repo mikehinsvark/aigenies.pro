@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Clone Dashboard — DBR</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0A1628;
+  --navy2:#0F1F38;
+  --card:#132040;
+  --card2:#162545;
+  --teal:#0D7A5F;
+  --teal-l:#12A37E;
+  --teal-dim:#0A5A47;
+  --gold:#C9990A;
+  --gold-l:#F0B429;
+  --gold-dim:#7A5C06;
+  --white:#F0EDE8;
+  --mid:#7A8FA8;
+  --dim:#3A4F68;
+  --border:#1C3050;
+  --border2:#243A58;
+  --success:#0D7A5F;
+  --warn:#C9990A;
+}
+body{background:var(--navy);color:var(--white);font-family:'DM Sans',sans-serif;min-height:100vh;line-height:1.5}
+
+/* NAV */
+nav{background:var(--navy2);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100}
+.nav-brand{display:flex;align-items:center;gap:10px}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.08em;color:var(--white)}
+.nav-logo span{color:var(--teal-l)}
+.nav-badge{font-size:10px;background:rgba(13,122,95,.15);border:1px solid var(--teal-dim);color:var(--teal-l);padding:3px 10px;border-radius:20px;font-family:'DM Mono',monospace;letter-spacing:.08em}
+.nav-links{display:flex;align-items:center;gap:6px}
+.nav-link{font-size:12px;color:var(--mid);padding:6px 12px;border-radius:4px;text-decoration:none;transition:all .15s;white-space:nowrap}
+.nav-link:hover{color:var(--white);background:rgba(255,255,255,.05)}
+.nav-link.active{color:var(--teal-l);background:rgba(13,122,95,.12)}
+.nav-upgrade{font-size:12px;background:var(--gold);color:var(--navy);padding:6px 14px;border-radius:4px;text-decoration:none;font-weight:600;letter-spacing:.04em;transition:opacity .15s}
+.nav-upgrade:hover{opacity:.85}
+
+/* LAYOUT */
+.page{max-width:1060px;margin:0 auto;padding:28px 20px 60px}
+.page-header{margin-bottom:24px}
+.greeting{font-family:'DM Mono',monospace;font-size:11px;color:var(--teal-l);letter-spacing:.12em;margin-bottom:6px}
+.page-title{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:.04em;color:var(--white);line-height:1}
+.page-title span{color:var(--teal-l)}
+.page-sub{font-size:13px;color:var(--mid);margin-top:6px}
+
+/* STATUS BAR */
+.status-bar{display:flex;align-items:center;gap:10px;background:rgba(13,122,95,.08);border:1px solid var(--teal-dim);border-radius:6px;padding:10px 16px;margin-bottom:24px}
+.status-dot{width:8px;height:8px;background:var(--teal-l);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.status-text{font-size:13px;color:var(--teal-l);font-weight:500}
+.status-sub{font-size:12px;color:var(--mid);margin-left:auto}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;position:relative;overflow:hidden}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--teal)}
+.stat-val{font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:.04em;color:var(--white);line-height:1;margin-bottom:4px}
+.stat-lbl{font-size:11px;color:var(--mid);letter-spacing:.04em}
+.stat-delta{font-size:11px;color:var(--teal-l);margin-top:4px}
+
+/* MAIN GRID */
+.main-grid{display:grid;grid-template-columns:1fr 340px;gap:16px;align-items:start}
+
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px}
+.card+.card{margin-top:16px}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.card-title{font-size:14px;font-weight:500;color:var(--white)}
+.card-sub{font-size:11px;color:var(--mid);margin-top:2px}
+.section-mono{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.15em;color:var(--gold);text-transform:uppercase;margin-bottom:12px}
+
+/* PROGRESS STEPS */
+.steps{display:flex;flex-direction:column;gap:10px}
+.step{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:6px;background:var(--card2);border:1px solid var(--border)}
+.step.done{border-color:var(--teal-dim)}
+.step-num{width:28px;height:28px;border-radius:50%;border:1px solid var(--dim);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--mid);flex-shrink:0;font-family:'DM Mono',monospace}
+.step.done .step-num{background:var(--teal-dim);border-color:var(--teal);color:var(--teal-l)}
+.step-label{font-size:13px;color:var(--mid);flex:1}
+.step.done .step-label{color:var(--white)}
+.step-status{font-size:11px;font-family:'DM Mono',monospace}
+.step.done .step-status{color:var(--teal-l)}
+.step.pending .step-status{color:var(--gold)}
+
+/* PROGRESS BAR */
+.prog-wrap{margin-bottom:20px}
+.prog-label{display:flex;justify-content:space-between;font-size:12px;color:var(--mid);margin-bottom:6px}
+.prog-label span:last-child{color:var(--teal-l);font-weight:500}
+.prog-bar{height:4px;background:var(--border2);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--teal-l));border-radius:2px;transition:width .6s ease}
+
+/* QUICK ACTIONS */
+.actions-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:0}
+.action-btn{background:var(--card2);border:1px solid var(--border2);border-radius:6px;padding:12px 14px;text-align:left;cursor:pointer;transition:all .15s;color:var(--white)}
+.action-btn:hover{border-color:var(--teal);background:rgba(13,122,95,.1)}
+.action-btn-title{font-size:13px;font-weight:500;margin-bottom:2px}
+.action-btn-sub{font-size:11px;color:var(--mid)}
+.action-btn-icon{font-size:16px;margin-bottom:6px}
+
+/* COPY BLOCK */
+.copy-block{background:var(--navy);border:1px solid var(--border2);border-radius:6px;padding:12px 14px;font-family:'DM Mono',monospace;font-size:11px;color:var(--mid);line-height:1.6;position:relative;margin-bottom:12px}
+.copy-btn{position:absolute;top:8px;right:8px;background:var(--teal-dim);border:1px solid var(--teal);color:var(--teal-l);font-size:10px;padding:3px 10px;border-radius:4px;cursor:pointer;font-family:'DM Mono',monospace;transition:all .15s}
+.copy-btn:hover{background:var(--teal);color:var(--white)}
+
+/* USE CASES */
+.use-list{display:flex;flex-direction:column;gap:8px}
+.use-item{background:var(--card2);border:1px solid var(--border);border-radius:6px;padding:12px 14px;border-left:3px solid var(--teal)}
+.use-item-title{font-size:13px;font-weight:500;color:var(--white);margin-bottom:3px}
+.use-item-eg{font-family:'DM Mono',monospace;font-size:11px;color:var(--teal-l);margin-top:6px;background:rgba(13,122,95,.08);padding:5px 8px;border-radius:3px;line-height:1.5}
+
+/* UPGRADE CARD */
+.upgrade-card{background:linear-gradient(135deg,rgba(201,153,10,.08),rgba(13,122,95,.08));border:1px solid var(--gold-dim);border-radius:10px;padding:20px}
+.upgrade-card-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.04em;color:var(--gold-l);margin-bottom:6px}
+.upgrade-card-sub{font-size:13px;color:var(--mid);margin-bottom:16px;line-height:1.6}
+.upgrade-features{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.upgrade-feat{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--white)}
+.upgrade-feat-icon{color:var(--gold-l);flex-shrink:0;margin-top:1px}
+.upgrade-feat-locked{color:var(--mid);font-size:11px;margin-top:1px}
+.upgrade-btn{display:block;width:100%;padding:13px;background:var(--gold);color:var(--navy);border:none;border-radius:6px;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.06em;cursor:pointer;text-align:center;text-decoration:none;transition:opacity .15s}
+.upgrade-btn:hover{opacity:.88}
+
+/* PROMPT LIBRARY */
+.prompt-list{display:flex;flex-direction:column;gap:6px}
+.prompt-item{display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--card2);border-radius:5px;border:1px solid var(--border);font-size:12px;color:var(--white);cursor:pointer;transition:border-color .15s}
+.prompt-item:hover{border-color:var(--teal-dim)}
+.prompt-cat{font-size:10px;font-family:'DM Mono',monospace;padding:2px 7px;border-radius:20px;flex-shrink:0}
+.cat-obj{background:rgba(13,122,95,.15);color:var(--teal-l)}
+.cat-email{background:rgba(201,153,10,.15);color:var(--gold-l)}
+.cat-pitch{background:rgba(55,138,221,.15);color:#85B7EB}
+.cat-recruit{background:rgba(208,90,48,.15);color:#F0997B}
+
+/* FOOTER */
+footer{background:var(--navy2);border-top:1px solid var(--border);padding:16px 24px;text-align:center;font-size:11px;color:var(--mid);margin-top:40px}
+footer a{color:var(--teal-l);text-decoration:none}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .main-grid{grid-template-columns:1fr}
+  .nav-links{display:none}
+}
+
+/* ANIMATIONS */
+.card{animation:fadeUp .4s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.stat-card:nth-child(1){animation-delay:.05s}
+.stat-card:nth-child(2){animation-delay:.1s}
+.stat-card:nth-child(3){animation-delay:.15s}
+.stat-card:nth-child(4){animation-delay:.2s}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">
+    <div class="nav-logo">DBR <span>AI</span></div>
+    <div class="nav-badge">FREE TIER</div>
+  </div>
+  <div class="nav-links">
+    <a href="https://erctrainers.com/aiclone/" class="nav-link active" target="_blank">AI Clone Setup</a>
+    <a href="https://dreamsaiagents.pro/" class="nav-link" target="_blank">AI Genie Demo</a>
+    <a href="https://dreamsfaststart.com" class="nav-link" target="_blank">DBR Training</a>
+    <a href="https://renewalsforlifestyle.com" class="nav-link" target="_blank">RenewalsForLife</a>
+    <a href="https://familylegacy.pro" class="nav-link" target="_blank">Family Legacy</a>
+  </div>
+  <a href="https://dreams3pkg-5hqcaqth.manus.space/?refid=AA0233" target="_blank" class="nav-upgrade">View Packages →</a>
+</nav>
+
+<div class="page">
+
+  <div class="page-header">
+    <div class="greeting">// AGENT DASHBOARD · AI CLONE SYSTEM</div>
+    <h1 class="page-title">Your AI <span>Clone</span></h1>
+    <p class="page-sub">Your personal DBR AI coach — configured for your products, your prospects, your voice.</p>
+  </div>
+
+  <div class="status-bar">
+    <div class="status-dot"></div>
+    <div class="status-text">AI Clone Active</div>
+    <div style="font-size:12px;color:var(--mid);margin-left:16px;">Claude.ai · DBR Master Block loaded · Personal context ready</div>
+    <div class="status-sub">Free forever · <a href="ai-genie-pro.html" style="color:var(--gold-l);text-decoration:none;">Upgrade for more →</a></div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-val">6/6</div>
+      <div class="stat-lbl">Setup steps complete</div>
+      <div class="stat-delta">✓ Fully deployed</div>
+    </div>
+    <div class="stat-card" style="--teal:var(--gold)">
+      <div class="stat-val">47</div>
+      <div class="stat-lbl">AI tasks this month</div>
+      <div class="stat-delta" style="color:var(--gold-l)">↑ 12 vs last month</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">12</div>
+      <div class="stat-lbl">Saved prompts</div>
+      <div class="stat-delta">Growing library</div>
+    </div>
+    <div class="stat-card" style="--teal:var(--gold)">
+      <div class="stat-val">$0</div>
+      <div class="stat-lbl">Monthly cost</div>
+      <div class="stat-delta" style="color:var(--gold-l)">Free forever</div>
+    </div>
+  </div>
+
+  <div class="main-grid">
+
+    <!-- LEFT COLUMN -->
+    <div>
+
+      <!-- SETUP PROGRESS -->
+      <div class="card">
+        <div class="section-mono">Setup protocol</div>
+        <div class="prog-wrap">
+          <div class="prog-label"><span>Setup progress</span><span>6 / 6 complete</span></div>
+          <div class="prog-bar"><div class="prog-fill" style="width:100%"></div></div>
+        </div>
+        <div class="steps">
+          <div class="step done">
+            <div class="step-num">✓</div>
+            <div class="step-label">Claude account created at claude.ai</div>
+            <div class="step-status">Done</div>
+          </div>
+          <div class="step done">
+            <div class="step-num">✓</div>
+            <div class="step-label">DBR Master Knowledge Block copied</div>
+            <div class="step-status">Done</div>
+          </div>
+          <div class="step done">
+            <div class="step-num">✓</div>
+            <div class="step-label">Personal context block built</div>
+            <div class="step-status">Done</div>
+          </div>
+          <div class="step done">
+            <div class="step-num">✓</div>
+            <div class="step-label">First clone session launched</div>
+            <div class="step-status">Done</div>
+          </div>
+          <div class="step done">
+            <div class="step-num">✓</div>
+            <div class="step-label">5 core use cases practiced</div>
+            <div class="step-status">Done</div>
+          </div>
+          <div class="step done">
+            <div class="step-num">✓</div>
+            <div class="step-label">Prompt library started</div>
+            <div class="step-status">Done</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DBR MASTER BLOCK -->
+      <div class="card">
+        <div class="section-mono">DBR Master Knowledge Block</div>
+        <p style="font-size:13px;color:var(--mid);margin-bottom:12px;line-height:1.6">Paste this into Claude <strong style="color:var(--white)">first</strong>, before your personal context block. It gives your AI Clone deep DBR knowledge — products, scripts, objections, philosophy — instantly.</p>
+        <div class="copy-block" id="master-block">
+You are an expert DBR sales coach with deep knowledge of:
+— DREAMS framework (Develop, Recruit, Execute, Amplify, Multiply, Serve)
+— Quantum 125 Plan / Section 125 pre-tax benefits
+— Trumark Health Division group health solutions
+— FICA tip credit (Section 45B) for restaurant owners
+— R&D Tax Credits (Section 41) for qualifying businesses
+— DBR philosophy: residual income, Build Once Earn Forever
+— Top recruiting &amp; sales objections with calibrated responses
+— Prospect profiles: CFO, HR manager, small biz owner, restaurant owner
+
+Lead with philosophy before product. Connect every answer to life outcomes. Be warm, direct, and convicted. Never guarantee specific credit amounts — always say "you may qualify" and recommend assessment.
+
+After reading this, wait for the agent's personal context block.
+          <button class="copy-btn" onclick="copyBlock()">Copy</button>
+        </div>
+        <div style="display:flex;gap:8px">
+          <a href="https://erctrainers.com/aiclone/" target="_blank" style="flex:1;display:block;padding:11px;background:var(--teal-dim);border:1px solid var(--teal);border-radius:6px;color:var(--teal-l);font-size:13px;font-weight:500;text-align:center;text-decoration:none;transition:all .15s" onmouseover="this.style.background='var(--teal)';this.style.color='var(--white)'" onmouseout="this.style.background='var(--teal-dim)';this.style.color='var(--teal-l)'">Full Setup Guide →</a>
+          <a href="https://claude.ai" target="_blank" style="flex:1;display:block;padding:11px;background:var(--card2);border:1px solid var(--border2);border-radius:6px;color:var(--white);font-size:13px;font-weight:500;text-align:center;text-decoration:none;transition:all .15s" onmouseover="this.style.borderColor='var(--teal-dim)'" onmouseout="this.style.borderColor='var(--border2)'">Open Claude.ai →</a>
+        </div>
+      </div>
+
+      <!-- USE CASES -->
+      <div class="card">
+        <div class="section-mono">What your clone does — daily</div>
+        <div class="use-list">
+          <div class="use-item">
+            <div class="use-item-title">Writes emails in 30 seconds</div>
+            <div class="use-item-eg">"Write a follow-up to a CFO who no-showed our Section 125 call yesterday."</div>
+          </div>
+          <div class="use-item">
+            <div class="use-item-title">Handles any objection instantly</div>
+            <div class="use-item-eg">"My prospect said they already have a benefits broker. Give me 3 responses."</div>
+          </div>
+          <div class="use-item">
+            <div class="use-item-title">Practices your pitch with you</div>
+            <div class="use-item-eg">"Roleplay as a skeptical CFO with 40 employees. Push back on the Quantum 125 pitch."</div>
+          </div>
+          <div class="use-item">
+            <div class="use-item-title">Recruits in your voice</div>
+            <div class="use-item-eg">"Write a LinkedIn DM to a P&C agent about the DBR residual income model."</div>
+          </div>
+          <div class="use-item">
+            <div class="use-item-title">Explains complex products simply</div>
+            <div class="use-item-eg">"Explain FICA tip credits to a restaurant owner without sounding like an accountant."</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div>
+
+      <!-- UPGRADE CARD -->
+      <div class="upgrade-card" style="margin-bottom:16px">
+        <div class="upgrade-card-title">AI Genie Pro</div>
+        <div class="upgrade-card-sub">Your clone works great in sessions. Upgrade to unlock agents that work 24/7 — and the DBR council, available anytime.</div>
+        <div class="upgrade-features">
+          <div class="upgrade-feat">
+            <div class="upgrade-feat-icon">◈</div>
+            <div>
+              <div>4 AI agents working your pipeline</div>
+              <div class="upgrade-feat-locked">Recruiting · Onboarding · B2B · Intelligence</div>
+            </div>
+          </div>
+          <div class="upgrade-feat">
+            <div class="upgrade-feat-icon">◈</div>
+            <div>
+              <div>DBR AI Council — 4 expert minds</div>
+              <div class="upgrade-feat-locked">Mike · Kent · James · Anthony — 24/7</div>
+            </div>
+          </div>
+          <div class="upgrade-feat">
+            <div class="upgrade-feat-icon">◈</div>
+            <div>
+              <div>Your own Digital Mind</div>
+              <div class="upgrade-feat-locked">Public URL · works while you sleep</div>
+            </div>
+          </div>
+          <div class="upgrade-feat">
+            <div class="upgrade-feat-icon">◈</div>
+            <div>
+              <div>Persistent memory — no more pasting</div>
+              <div class="upgrade-feat-locked">Context stays between every session</div>
+            </div>
+          </div>
+        </div>
+        <a href="https://dreams3pkg-5hqcaqth.manus.space/?refid=AA0233" target="_blank" class="upgrade-btn">View Packages & Activate →</a>
+      </div>
+
+      <!-- PROMPT LIBRARY -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Prompt library</div>
+            <div class="card-sub">Your best prompts — saved and ready</div>
+          </div>
+          <div style="font-size:11px;color:var(--teal-l);font-family:'DM Mono',monospace">12 saved</div>
+        </div>
+        <div class="prompt-list">
+          <div class="prompt-item">
+            <span class="prompt-cat cat-obj">Objection</span>
+            "They already have a broker" — 3 responses
+          </div>
+          <div class="prompt-item">
+            <span class="prompt-cat cat-email">Email</span>
+            No-show re-engagement for CFO
+          </div>
+          <div class="prompt-item">
+            <span class="prompt-cat cat-pitch">Pitch</span>
+            Quantum 125 roleplay — skeptical CFO
+          </div>
+          <div class="prompt-item">
+            <span class="prompt-cat cat-recruit">Recruit</span>
+            LinkedIn DM for P&C insurance agent
+          </div>
+          <div class="prompt-item">
+            <span class="prompt-cat cat-obj">Objection</span>
+            "Is this an MLM?" — full response
+          </div>
+          <div class="prompt-item">
+            <span class="prompt-cat cat-email">Email</span>
+            FICA tip credit intro for restaurant owner
+          </div>
+        </div>
+        <button style="width:100%;margin-top:12px;padding:9px;background:transparent;border:1px dashed var(--border2);border-radius:6px;color:var(--mid);font-size:12px;cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='var(--teal-dim)';this.style.color='var(--teal-l)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--mid)'">+ Add prompt to library</button>
+      </div>
+
+      <!-- QUICK ACTIONS -->
+      <div class="card">
+        <div class="section-mono">Quick actions</div>
+        <div class="actions-grid">
+          <button class="action-btn" onclick="copyBlock()">
+            <div class="action-btn-icon">📋</div>
+            <div class="action-btn-title">Copy master block</div>
+            <div class="action-btn-sub">Ready to paste</div>
+          </button>
+          <a href="https://claude.ai" target="_blank" class="action-btn" style="text-decoration:none;display:block">
+            <div class="action-btn-icon">⚡</div>
+            <div class="action-btn-title">Open Claude</div>
+            <div class="action-btn-sub">Start a session</div>
+          </a>
+          <a href="https://erctrainers.com/aiclone/" target="_blank" class="action-btn" style="text-decoration:none;display:block">
+            <div class="action-btn-icon">↺</div>
+            <div class="action-btn-title">Rebuild context</div>
+            <div class="action-btn-sub">Update your block</div>
+          </a>
+          <button class="action-btn">
+            <div class="action-btn-icon">★</div>
+            <div class="action-btn-title">Share with agent</div>
+            <div class="action-btn-sub">Invite to clone system</div>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer>
+  DBR · Dreams Business Resources · <a href="https://renewalsforlifestyle.com">RenewalsForLife.com</a> · <a href="https://familylegacy.pro">Legacy Builder</a> · <a href="https://dreamsfaststart.com">DBR Training</a>
+  <br><br>Build Once. Earn Forever. · <a href="https://dreams3pkg-5hqcaqth.manus.space/?refid=AA0233" target="_blank">View Packages →</a>
+</footer>
+
+<div id="copy-toast" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--teal);color:var(--white);padding:10px 20px;border-radius:6px;font-size:13px;font-weight:500;opacity:0;transition:all .3s;pointer-events:none;z-index:999">DBR Master Block copied to clipboard!</div>
+
+<script>
+function copyBlock(){
+  const text = `You are an expert DBR sales coach with deep knowledge of:
+— DREAMS framework (Develop, Recruit, Execute, Amplify, Multiply, Serve)
+— Quantum 125 Plan / Section 125 pre-tax benefits
+— Trumark Health Division group health solutions
+— FICA tip credit (Section 45B) for restaurant owners
+— R&D Tax Credits (Section 41) for qualifying businesses
+— DBR philosophy: residual income, Build Once Earn Forever
+— Top recruiting & sales objections with calibrated responses
+— Prospect profiles: CFO, HR manager, small biz owner, restaurant owner
+
+Lead with philosophy before product. Connect every answer to life outcomes. Be warm, direct, and convicted. Never guarantee specific credit amounts — always say "you may qualify" and recommend assessment.
+
+After reading this, wait for the agent's personal context block.`;
+  navigator.clipboard.writeText(text).then(()=>{
+    const t=document.getElementById('copy-toast');
+    t.style.opacity='1';t.style.transform='translateX(-50%) translateY(0)';
+    setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(-50%) translateY(20px)'},2400);
+  });
+}
+</script>
+</body>
+</html>
