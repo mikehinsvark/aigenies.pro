@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">AI Genie Pro icon</title>
+  <desc id="desc">A teal and gold G emblem on a deep navy rounded tile.</desc>
+  <rect x="2.5" y="2.5" width="59" height="59" rx="16" fill="#060F1C" stroke="#12A37E" stroke-width="2"/>
+  <path d="M43.5 20.5A17 17 0 1 0 45.5 43" fill="none" stroke="#12A37E" stroke-width="6" stroke-linecap="round"/>
+  <path d="M35 32H51V43" fill="none" stroke="#F0B429" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M50 12V17M47.5 14.5H52.5" fill="none" stroke="#F0B429" stroke-width="2.5" stroke-linecap="round"/>
+</svg>
